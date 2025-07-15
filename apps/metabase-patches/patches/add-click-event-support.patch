@@ -13,7 +13,7 @@ index 17e72049b3..b6db690b8b 100644
 +        window.parent?.postMessage({type: 'metabase-action', data: eventData}, '*')
 +        return
 +      }
-+      
++
        open(url, {
          openInSameOrigin: (location) => {
            dispatch(push(location));
