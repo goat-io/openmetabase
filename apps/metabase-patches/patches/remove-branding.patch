@@ -9,12 +9,12 @@ index 99840e31a2..7e2be97b81 100644
 -  const hasEmbedBranding = useSelector(
 -    (state) => !getSetting(state, "hide-embed-branding?"),
 -  );
-+  const hasEmbedBranding = false
++  const hasEmbedBranding = false;
  
 -  const isPublicDashboard = Boolean(
 -    dashboard && getDashboardType(dashboard.id) === "public",
 -  );
-+  const isPublicDashboard = false
++  const isPublicDashboard = false;
  
    const isQuestion = question != null;
    const isDashboard = dashboard != null;
