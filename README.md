@@ -2,6 +2,15 @@
 
 A proof-of-concept for using Metabase as a backoffice solution with enhanced action capabilities in embedded dashboards.
 
+## Metabase Credentials
+
+For the local development environment credentials are
+
+```txt
+username: admin@mycompany.com
+password: testadmin123
+```
+
 ## Overview
 
 This project demonstrates how to use a modified version of Metabase to create interactive backoffice applications. Since the open-source version of Metabase has limitations on embedded dashboard actions, we maintain a patched version that enables these features.
