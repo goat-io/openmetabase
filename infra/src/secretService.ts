@@ -1,0 +1,9 @@
+//////////////////////////////////////////////////////////////////////////
+// WARNING:
+// This is just for local usage! dont input actual secrets here!!!
+//////////////////////////////////////////////////////////////////////////
+export const secretService = {
+  POSTGRES_DB_USER: 'root',
+  POSTGRES_DB_PASSWORD: 'somesecretpassword',
+  METABASE_DB_NAME: 'metabase',
+}

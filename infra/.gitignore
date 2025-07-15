@@ -1,0 +1,12 @@
+/bin/
+/node_modules/
+.env
+/Pulumi.yaml
+/Pulumi.*.yaml
+/src/infrastructure/local/data/mysql/*
+/src/infrastructure/local/data/typesense/*
+/src/local/data/typesense/*
+/pulumi-state/.pulumi/**/local**
+/pulumi-state/.pulumi/backups/**
+/pulumi-state/.pulumi/history/**
+/pulumi-state/.pulumi/locks/**

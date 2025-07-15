@@ -1,0 +1,19 @@
+{
+  "name": "backoffice-test",
+  "version": "1.0.0",
+  "private": true,
+  "description": "POC for using Metabase as backoffice",
+  "scripts": {
+    "format": "npm run format:backoffice && npm run format:metabase && npm run format:infra",
+    "format:check": "npm run format:check:backoffice && npm run format:check:metabase && npm run format:check:infra",
+    "format:backoffice": "cd apps/backoffice && npm run format",
+    "format:metabase": "cd apps/metabase-emb && npm run format",
+    "format:infra": "cd infra && npm run format",
+    "format:check:backoffice": "cd apps/backoffice && npm run format:check",
+    "format:check:metabase": "cd apps/metabase-emb && npm run format:check",
+    "format:check:infra": "cd infra && npm run format:check",
+    "metabase:setup": "cd apps/metabase-patches/scripts && ./setup.sh",
+    "metabase:create-patch": "cd apps/metabase-patches/scripts && ./create-patch.sh",
+    "metabase:update": "cd apps/metabase-patches/scripts && ./update-metabase.sh"
+  }
+}

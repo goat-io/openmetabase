@@ -1,0 +1,39 @@
+# Dependencies
+node_modules
+.yarn
+
+# Build outputs
+dist
+build
+out
+.next
+
+# Logs
+*.log
+
+# Environment files
+.env
+.env.*
+
+# IDE
+.vscode
+.idea
+
+# OS
+.DS_Store
+
+# Package managers
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Pulumi
+pulumi-state/
+.pulumi/
+
+# Generated files
+*.generated.*
+.cache
+
+# Public assets
+public/

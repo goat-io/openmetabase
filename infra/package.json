@@ -1,0 +1,40 @@
+{
+  "license": "UNLICENSED",
+  "private": true,
+  "name": "@sodium/infra",
+  "version": "0.1.1",
+  "dependencies": {
+    "@pulumi/command": "^1.0.1",
+    "@pulumi/docker": "^4.5.7",
+    "@pulumi/docker-build": "^0.0.8",
+    "@pulumi/gcp": "^8.6.0",
+    "@pulumi/postgresql": "^3.12.2",
+    "@pulumi/pulumi": "^3.137.0",
+    "@pulumiverse/vercel": "1.14.3",
+    "@rediscloud/pulumi-rediscloud": "^1.1.3",
+    "dotenv": "^16.4.5",
+    "firebase-tools": "^13.23.0",
+    "vercel": "^37.12.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.8",
+    "cross-env": "^7.0.3",
+    "prettier": "^3.6.2",
+    "rimraf": "^6.0.1",
+    "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.19.2"
+  },
+  "main": "./src/index.ts",
+  "scripts": {
+    "clean": "rimraf .cache .turbo dist node_modules",
+    "deploy": "cross-env tsx ./src/index.ts",
+    "destroy:local": "cross-env  APP_ENV=local ./scripts/destroyAllResources.sh",
+    "docker:cmd": "cross-env  APP_ENV=local ./scripts/runDockerCommand.sh",
+    "pulumi": "node ./scripts/pulumiCommand.js",
+    "serve": "cross-env APP_ENV=local tsx ./src/index.ts",
+    "setup-meta": "cross-env APP_ENV=local tsx ./src/services/metabase/setupScript.ts",
+    "update:packages": "cross-env npx npm-check-updates",
+    "format": "prettier --write \"src/**/*.{js,ts,json,md}\" \"scripts/**/*.{js,ts}\"",
+    "format:check": "prettier --check \"src/**/*.{js,ts,json,md}\" \"scripts/**/*.{js,ts}\""
+  }
+}
