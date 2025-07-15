@@ -7,8 +7,8 @@ import { addDataSource } from './util/admin/addDataSource'
 import { secretService } from '@src/secretService'
 
 export async function setupMetabase(projectName?: string) {
-  const ADMIN_EMAIL = process.env.MB_ADMIN_EMAIL || 'admin@trustly.com'
-  const ADMIN_PASSWORD = process.env.MB_ADMIN_PASSWORD || 'trustly123'
+  const ADMIN_EMAIL = process.env.MB_ADMIN_EMAIL || 'admin@mycompany.com'
+  const ADMIN_PASSWORD = process.env.MB_ADMIN_PASSWORD || 'testadmin123'
   const METABASE_HOST = process.env.MB_HOSTNAME || '127.0.0.1'
   const METABASE_PORT = process.env.MB_PORT || 3000
   const METABASE_URL = `http://${METABASE_HOST}:${METABASE_PORT}`
