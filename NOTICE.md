@@ -16,6 +16,8 @@ This distribution includes the following modifications to the original Metabase 
 1. **Always Enable Actions** (`always-enable-actions.patch`): Forces actions to be enabled in embedded dashboards
 2. **Make Action Cards Visible** (`make-action-cards-visible.patch`): Ensures action cards are visible in public/embedded dashboard views
 3. **Add Click Event Support** (`add-click-event-support.patch`): Adds support for click events to communicate from iframe to parent window
+4. **Request Auth Tokens from Parent** (`request-auth-tokens-from-parent.patch`): Enables secure authentication token exchange for embedded dashboards
+5. **Parse JWT for Embedded Actions** (`parse-jwt-for-embedded-actions.patch`): Handles JWT token parsing for action execution in embedded contexts
 
 All modifications are applied as patches located in `apps/metabase-patches/patches/`.
 

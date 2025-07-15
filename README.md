@@ -90,6 +90,25 @@ The frontend will be available at <http://localhost:3001>
 └── package.json            # Root package with convenience scripts
 ```
 
+## Security Architecture
+
+### Embedding Authentication Flow
+
+1. **Backend Authorization**: All embedding requests go through our backend (`metabase-emb`) which:
+   - Validates user permissions and access rights
+   - Generates JWT tokens with encoded dashboard access
+   - Provides API keys only to authorized users for action execution
+
+2. **Secure Token Exchange**: The frontend and embedded Metabase communicate via postMessage to:
+   - Share API keys for action execution
+   - Exchange session tokens as needed
+   - Maintain security boundaries between iframe and parent
+
+3. **JWT-Based Access Control**: Each embedding URL contains a JWT token that:
+   - Encodes the specific dashboard ID and parameters
+   - Ensures access was authorized by our backend
+   - Prevents unauthorized dashboard access
+
 ## Metabase Patches
 
 We maintain the following patches to enable actions in embedded dashboards:
@@ -97,12 +116,17 @@ We maintain the following patches to enable actions in embedded dashboards:
 1. **`always-enable-actions.patch`**: Forces actions to be enabled regardless of database settings
 2. **`make-action-cards-visible.patch`**: Makes action cards visible in embedded views
 3. **`add-click-event-support.patch`**: Adds postMessage support for parent-iframe communication
+4. **`request-auth-tokens-from-parent.patch`**: Enables secure authentication token exchange between parent and embedded Metabase
+5. **`parse-jwt-for-embedded-actions.patch`**: Adds JWT parsing for proper action execution in embedded dashboards
 
 ### Managing Patches
 
 ```bash
 # Apply patches to a fresh Metabase clone
 npm run metabase:setup
+
+# Reset Metabase to clean state (removes all patches)
+npm run metabase:reset-patches
 
 # Create a new patch from your changes
 npm run metabase:create-patch my-feature
