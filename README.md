@@ -5,6 +5,12 @@ This project contains a POC for using metabase as backoffice
 As the open source version of metabase has limitations on how we can interact
 with it we have created a fork and force enable the visibility of actions
 
+## License
+
+This project contains a modified version of Metabase, which is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0). See [NOTICE.md](NOTICE.md) for details about modifications and [LICENSE-AGPL](LICENSE-AGPL) for the full license text.
+
+Our modifications are also licensed under AGPL-3.0. Source code for all modifications is available in this repository as patches in `apps/metabase-patches/patches/`.
+
 ## How it works
 
 The apps/metabase-emb is a node project that generates the embedding link for a

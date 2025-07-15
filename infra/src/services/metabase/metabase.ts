@@ -1,11 +1,8 @@
-import * as path from 'path'
 import * as docker from '@pulumi/docker'
-import * as dockerBuild from '@pulumi/docker-build'
 import { env } from '@src/index'
-import * as command from '@pulumi/command'
-import { version } from '../../../package.json'
+import { version } from '../../../../package.json'
 import { localIP } from '../../const'
-import { dockerBuildProvider, dockerProvider } from '../../dockerProvider'
+import { dockerProvider } from '../../dockerProvider'
 import {
   metabaseDBName,
   postgresContainerName,
@@ -13,42 +10,15 @@ import {
 import { network } from '../../network'
 import { secretService } from '@src/secretService'
 
-const imageName = 'metabase-local'
+const imageName = 'openmetabase'
 const versionedImageName = `${imageName}:${version}`
 const dbPassword = secretService.POSTGRES_DB_PASSWORD
-const metabaseRootPath = __dirname
-
-// export const metabaseBuiltImage = new dockerBuild.Image(
-//   'metabaseImage',
-//   {
-//     tags: [versionedImageName],
-//     push: false,
-//     dockerfile: {
-//       location: path.join(metabaseRootPath, `Dockerfile`),
-//     },
-//     context: {
-//       location: metabaseRootPath,
-//     },
-//     platforms:
-//       process.arch === 'arm' || process.arch === 'arm64'
-//         ? ['linux/arm64']
-//         : ['linux/amd64'],
-//     exports: [
-//       {
-//         docker: {},
-//       },
-//     ],
-//   },
-//   {
-//     provider: dockerBuildProvider,
-//   },
-// )
 
 // Define a Docker container resource that uses the built image
 export const metabaseContainer = new docker.Container(
   'metabaseContainer',
   {
-    image: 'metabasetl:0.0.2',
+    image: versionedImageName,
     name: `${env.APP_NAME}-metabase-${process.env.APP_ENV}`,
     restart: 'unless-stopped',
     ports: [

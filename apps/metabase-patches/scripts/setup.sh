@@ -30,18 +30,43 @@ fi
 
 # Apply patches if any exist
 if [ -d "$PATCHES_DIR" ] && [ "$(ls -A "$PATCHES_DIR"/*.patch 2>/dev/null)" ]; then
-    echo "Applying patches..."
+    echo "Checking and applying patches..."
+    applied_count=0
+    skipped_count=0
+    
     for patch in "$PATCHES_DIR"/*.patch; do
-        echo "Applying patch: $(basename "$patch")"
-        git apply "$patch" || {
-            echo "Failed to apply patch: $(basename "$patch")"
-            echo "You may need to resolve conflicts manually"
-            exit 1
-        }
+        patch_name="$(basename "$patch")"
+        
+        # Check if patch is already applied by attempting a dry run
+        if git apply --check "$patch" 2>/dev/null; then
+            echo "Applying patch: $patch_name"
+            git apply "$patch"
+            ((applied_count++))
+        else
+            # Check if it's already applied by trying reverse
+            if git apply --check --reverse "$patch" 2>/dev/null; then
+                echo "Patch already applied: $patch_name (skipping)"
+                ((skipped_count++))
+            else
+                echo "Failed to apply patch: $patch_name"
+                echo "This patch may conflict with current code or be partially applied"
+                echo "You may need to resolve conflicts manually"
+                exit 1
+            fi
+        fi
     done
-    echo "All patches applied successfully!"
+    
+    echo ""
+    echo "Patch summary:"
+    echo "  Applied: $applied_count patches"
+    echo "  Skipped: $skipped_count patches (already applied)"
+    echo ""
+    
+    if [ $applied_count -gt 0 ] || [ $skipped_count -gt 0 ]; then
+        echo "All patches processed successfully!"
+    fi
 else
     echo "No patches found to apply."
 fi
 
-echo "Setup complete! Metabase is ready at: $METABASE_DIR"
+echo "Setup complete! Metabase is ready at: $(cd "$METABASE_DIR" && pwd)"
