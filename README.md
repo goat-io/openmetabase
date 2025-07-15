@@ -2,40 +2,6 @@
 
 A proof-of-concept for using Metabase as a backoffice solution with enhanced action capabilities in embedded dashboards.
 
-## AGPL License Compliance Notice
-
-**This project maintains a patched version of Metabase in full compliance with the GNU Affero General Public License v3.0 (AGPL-3.0).** We are committed to:
-
-- **Full Transparency**: All modifications to Metabase source code are documented and available as git patches in `apps/metabase-patches/patches/`
-- **Open Source**: This entire repository, including all patches and modifications, is publicly available
-- **Attribution**: We maintain the "Powered by Metabase" logo in all embedded dashboards to properly attribute the original software
-- **User Rights**: Anyone receiving our modified version has full access to the complete source code, as required by AGPL
-
-For detailed information about our modifications, see [MODIFICATIONS.md](apps/metabase-patches/MODIFICATIONS.md) and [NOTICE.md](NOTICE.md).
-
-## Relationship with Metabase Commercial Offerings
-
-**This project is not intended to compete with or undermine Metabase's paid products.** Our modifications address a very specific use case: enabling basic action functionality in embedded dashboards for managing interactions within the embedding application.
-
-### What This Project Does
-- Enables actions in embedded dashboards for specific backoffice use cases
-- Allows parent-iframe communication for controlled interactions
-- Provides a workaround for a narrow set of embedding limitations
-
-### What This Project Doesn't Do
-- We do NOT support advanced embedding features (white-labeling, custom styling, etc.)
-- We do NOT provide the full suite of enterprise features
-- We do NOT offer commercial support or guarantees
-
-**We strongly encourage organizations needing professional embedded analytics to purchase Metabase Pro or Enterprise licenses**, which offer:
-- Official support and SLAs
-- Advanced embedding capabilities
-- White-labeling and customization options
-- Priority features and bug fixes
-- Direct support from the Metabase team
-
-Our project exists solely to explore specific technical possibilities within the open-source version and share our learnings with the community. We are grateful for Metabase's work and hope this project might even help identify use cases that could be considered for future open-source releases.
-
 ## Metabase Credentials
 
 For the local development environment credentials are
@@ -129,11 +95,13 @@ The frontend will be available at <http://localhost:3001>
 ### Embedding Authentication Flow
 
 1. **Backend Authorization**: All embedding requests go through our backend (`metabase-emb`) which:
+
    - Validates user permissions and access rights
    - Generates JWT tokens with encoded dashboard access
    - Provides API keys only to authorized users for action execution
 
 2. **Secure Token Exchange**: The frontend and embedded Metabase communicate via postMessage to:
+
    - Share API keys for action execution
    - Exchange session tokens as needed
    - Maintain security boundaries between iframe and parent
@@ -190,6 +158,43 @@ npm run metabase:build-image # Build Docker image
 # Format code
 npm run format             # Format all projects
 ```
+
+## AGPL License Compliance Notice
+
+**This project maintains a patched version of Metabase in full compliance with the GNU Affero General Public License v3.0 (AGPL-3.0).** We are committed to:
+
+- **Full Transparency**: All modifications to Metabase source code are documented and available as git patches in `apps/metabase-patches/patches/`
+- **Open Source**: This entire repository, including all patches and modifications, is publicly available
+- **Attribution**: We maintain the "Powered by Metabase" logo in all embedded dashboards to properly attribute the original software
+- **User Rights**: Anyone receiving our modified version has full access to the complete source code, as required by AGPL
+
+For detailed information about our modifications, see [MODIFICATIONS.md](apps/metabase-patches/MODIFICATIONS.md) and [NOTICE.md](NOTICE.md).
+
+## Relationship with Metabase Commercial Offerings
+
+**This project is not intended to compete with or undermine Metabase's paid products.** Our modifications address a very specific use case: enabling basic action functionality in embedded dashboards for managing interactions within the embedding application.
+
+### What This Project Does
+
+- Enables actions in embedded dashboards for specific backoffice use cases
+- Allows parent-iframe communication for controlled interactions
+- Provides a workaround for a narrow set of embedding limitations
+
+### What This Project Doesn't Do
+
+- We do NOT support advanced embedding features (white-labeling, custom styling, etc.)
+- We do NOT provide the full suite of enterprise features
+- We do NOT offer commercial support or guarantees
+
+**We strongly encourage organizations needing professional embedded analytics to purchase Metabase Pro or Enterprise licenses**, which offer:
+
+- Official support and SLAs
+- Advanced embedding capabilities
+- White-labeling and customization options
+- Priority features and bug fixes
+- Direct support from the Metabase team
+
+Our project exists solely to explore specific technical possibilities within the open-source version and share our learnings with the community. We are grateful for Metabase's work and hope this project might even help identify use cases that could be considered for future open-source releases.
 
 ## License
 
