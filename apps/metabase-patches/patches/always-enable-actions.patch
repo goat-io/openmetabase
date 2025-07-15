@@ -1,0 +1,13 @@
+diff --git a/frontend/src/metabase/actions/components/ActionViz/Action.tsx b/frontend/src/metabase/actions/components/ActionViz/Action.tsx
+index 1c14dc8230..95b306785f 100644
+--- a/frontend/src/metabase/actions/components/ActionViz/Action.tsx
++++ b/frontend/src/metabase/actions/components/ActionViz/Action.tsx
+@@ -158,7 +158,7 @@ function ActionFn(props: ActionProps) {
+   const { dashcard } = props;
+   const { action } = dashcard;
+ 
+-  const hasActionsEnabled = getActionIsEnabledInDatabase(dashcard);
++  const hasActionsEnabled = true;
+ 
+   if (!action || !hasActionsEnabled) {
+     const tooltip = getErrorTooltip({

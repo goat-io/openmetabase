@@ -1,0 +1,20 @@
+diff --git a/frontend/src/metabase/public/components/EmbedFrame/EmbedFrame.tsx b/frontend/src/metabase/public/components/EmbedFrame/EmbedFrame.tsx
+index 99840e31a2..7e2be97b81 100644
+--- a/frontend/src/metabase/public/components/EmbedFrame/EmbedFrame.tsx
++++ b/frontend/src/metabase/public/components/EmbedFrame/EmbedFrame.tsx
+@@ -108,13 +108,9 @@ export const EmbedFrame = ({
+   withFooter = true,
+ }: EmbedFrameProps) => {
+   useGlobalTheme(theme);
+-  const hasEmbedBranding = useSelector(
+-    (state) => !getSetting(state, "hide-embed-branding?"),
+-  );
++  const hasEmbedBranding = false
+ 
+-  const isPublicDashboard = Boolean(
+-    dashboard && getDashboardType(dashboard.id) === "public",
+-  );
++  const isPublicDashboard = false
+ 
+   const isQuestion = question != null;
+   const isDashboard = dashboard != null;

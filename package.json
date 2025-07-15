@@ -13,7 +13,7 @@
     "format:check:metabase": "cd apps/metabase-emb && npm run format:check",
     "format:check:infra": "cd infra && npm run format:check",
     "metabase:setup": "cd apps/metabase-patches/scripts && ./setup.sh",
-    "metabase:create-patch": "cd apps/metabase-patches/scripts && ./create-patch.sh",
+    "metabase:create-patch": "cd apps/metabase-patches/scripts && ./create-patch.sh $*",
     "metabase:update": "cd apps/metabase-patches/scripts && ./update-metabase.sh"
   }
 }

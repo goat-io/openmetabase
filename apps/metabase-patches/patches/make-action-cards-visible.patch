@@ -1,0 +1,13 @@
+diff --git a/frontend/src/metabase/public/containers/PublicOrEmbeddedDashboard/PublicOrEmbeddedDashboardPage/PublicOrEmbeddedDashboardPage.tsx b/frontend/src/metabase/public/containers/PublicOrEmbeddedDashboard/PublicOrEmbeddedDashboardPage/PublicOrEmbeddedDashboardPage.tsx
+index 2359e0f05c..f8ada128d3 100644
+--- a/frontend/src/metabase/public/containers/PublicOrEmbeddedDashboard/PublicOrEmbeddedDashboardPage/PublicOrEmbeddedDashboardPage.tsx
++++ b/frontend/src/metabase/public/containers/PublicOrEmbeddedDashboard/PublicOrEmbeddedDashboardPage/PublicOrEmbeddedDashboardPage.tsx
+@@ -68,7 +68,7 @@ export const PublicOrEmbeddedDashboardPage = (props: WithRouterProps) => {
+         onError={(error) => {
+           dispatch(setErrorPage(error));
+         }}
+-        isDashcardVisible={(dashcard) => !isActionDashCard(dashcard)}
++        isDashcardVisible={(dashcard) => true}
+         dashcardMenu={({ dashcard, result }) =>
+           downloadsEnabled?.results &&
+           isQuestionCard(dashcard.card) &&
