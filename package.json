@@ -1,6 +1,6 @@
 {
   "name": "backoffice-test",
-  "version": "v0.0.1",
+  "version": "v0.0.2",
   "private": true,
   "description": "POC for using Metabase as backoffice",
   "scripts": {
@@ -8,6 +8,7 @@
     "serve:infra": "cd infra && npm run serve",
     "metabase:setup": "cd apps/metabase-patches/scripts && ./setup.sh",
     "metabase:create-patch": "cd apps/metabase-patches/scripts && ./create-patch.sh $*",
+    "metabase:reset-patches": "cd apps/metabase-patches/scripts && ./reset-patches.sh",
     "metabase:update": "npm run metabase:setup && cd apps/metabase-patches/scripts && ./update-metabase.sh",
     "metabase:build-image": "npm run metabase:update && cd apps/metabase-patches/scripts && ./build-docker-image.sh"
   }

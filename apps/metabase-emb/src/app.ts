@@ -38,7 +38,7 @@ app.post('/get-dashboard', (req: Request, res: Response) => {
     METABASE_SITE_URL +
     '/embed/dashboard/' +
     token +
-    '#bordered=false&titled=true&events=true'
+    '#bordered=false&titled=true'
 
   if (refresh) {
     iframeUrl = `${iframeUrl}&refresh=${refresh}`
@@ -46,6 +46,7 @@ app.post('/get-dashboard', (req: Request, res: Response) => {
 
   res.json({
     iframeUrl,
+    apiKey: 'mb_jdVvfPbU4VqfkblxeRoae22GMI+9nT2hi6F6it3hRGw=',
   })
 })
 

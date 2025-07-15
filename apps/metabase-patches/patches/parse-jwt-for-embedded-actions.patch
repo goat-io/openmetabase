@@ -1,0 +1,64 @@
+diff --git a/frontend/src/metabase/dashboard/actions/actions.ts b/frontend/src/metabase/dashboard/actions/actions.ts
+index 050318ff28..27f01bb028 100644
+--- a/frontend/src/metabase/dashboard/actions/actions.ts
++++ b/frontend/src/metabase/dashboard/actions/actions.ts
+@@ -38,6 +38,35 @@ export function updateButtonActionMapping(
+   };
+ }
+ 
++export const parseJwt = <T>(token: string) => {
++  const base64Url = token.split('.')[1]
++  const base64 = base64Url?.replace(/-/g, '+').replace(/_/g, '/')
++
++  if (!base64) {
++    return undefined
++  }
++
++  const jsonPayload = decodeURIComponent(
++    window.atob(base64)
++      .split('')
++      .map(function (c: any) {
++        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
++      })
++      .join('')
++  )
++
++  return JSON.parse(jsonPayload) as T
++}
++
++export type EmbedDashboardToken = {
++  exp: number
++  iat: number
++  params: Record<string, string | number | boolean>
++  resource: {
++    dashboard: number
++  } 
++}
++
+ export type ExecuteRowActionPayload = {
+   dashboard: Dashboard;
+   dashcard: ActionDashboardCard;
+@@ -53,14 +82,21 @@ export const executeRowAction = async ({
+   dispatch,
+   shouldToast = true,
+ }: ExecuteRowActionPayload): Promise<ActionFormSubmitResult> => {
++  const dashboardType = getDashboardType(dashboard.id);
++
+   const executeAction =
+-    getDashboardType(dashboard.id) === "public"
++    dashboardType === "public"
+       ? PublicApi.executeDashcardAction
+       : ActionsApi.executeDashcardAction;
+ 
++  let dashboardId = dashboard.id;
++  if(dashboardType === 'embed') {
++     dashboardId = String(parseJwt<EmbedDashboardToken>(dashboard.id as string)?.resource?.dashboard || '');
++  }
++ 
+   try {
+     const result = await executeAction({
+-      dashboardId: dashboard.id,
++      dashboardId,
+       dashcardId: dashcard.id,
+       modelId: dashcard.card_id,
+       parameters,

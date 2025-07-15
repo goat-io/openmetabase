@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useRef } from 'react'
+import { FC, useEffect } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import IframeResizer from '@iframe-resizer/react'
 
@@ -11,11 +11,14 @@ export type MetabaseDashboardProps = {
   urlGeneratorBaseUrl: string
   // Triggers events comming from the embedded Iframe
   onEvent?: (data: Record<string, unknown>) => void
+  apiKey?: string
+  sessionToken?: string
 }
 
 // Define the shape of the data expected from the backend
 interface GetDashboardResponse {
   iframeUrl: string
+  apiKey?: string
 }
 
 interface GetDashboardPayload {
@@ -60,7 +63,9 @@ export const MetabaseDashboard: FC<MetabaseDashboardProps> = ({
   dashboardId,
   params = {}, // Default to an empty object if no params are provided
   urlGeneratorBaseUrl,
-  onEvent, // Destructure the new prop
+  onEvent,
+  apiKey,
+  sessionToken,
 }) => {
   // useMutation hook to handle the API call for generating the dashboard URL.
   // The `mutationFn` is wrapped to pass the `urlGeneratorBaseUrl`.
@@ -71,6 +76,8 @@ export const MetabaseDashboard: FC<MetabaseDashboardProps> = ({
   >({
     mutationFn: (payload) => fetchDashboardUrl(payload, urlGeneratorBaseUrl),
   })
+
+  const apiKeyToUse = apiKey || data?.apiKey
 
   useEffect(() => {
     const handleMetabaseActions = (e: MessageEvent) => {
@@ -87,15 +94,14 @@ export const MetabaseDashboard: FC<MetabaseDashboardProps> = ({
     }
   }, [onEvent])
 
+  // Handle session token
   useEffect(() => {
-    const handleTokenRequest = (e: MessageEvent<any>) => {
+    const handleTokenRequest = (e: MessageEvent) => {
       if (e.data.type === 'get-session-token') {
-        const value = 'b406cd6c-e3e5-4197-b40d-b60f0b0d745f'
-        console.log('value', value)
         e.source?.postMessage(
           {
             type: 'set-session-token',
-            sessionToken: value,
+            sessionToken,
           },
           {
             targetOrigin: e.origin,
@@ -110,11 +116,35 @@ export const MetabaseDashboard: FC<MetabaseDashboardProps> = ({
     return () => {
       window.removeEventListener('message', handleTokenRequest)
     }
-  }, [])
+  }, [sessionToken])
+
+  // Handle api key
+  useEffect(() => {
+    const handleTokenRequest = (e: MessageEvent) => {
+      if (e.data.type === 'get-api-key') {
+        e.source?.postMessage(
+          {
+            type: 'set-api-key',
+            apiKey: apiKeyToUse,
+          },
+          {
+            targetOrigin: e.origin,
+          },
+        )
+      }
+    }
+
+    // Create a BroadcastChannel and listen for messages
+    window.addEventListener('message', handleTokenRequest)
+    // Cleanup the BroadcastChannel when the component unmounts.
+    return () => {
+      window.removeEventListener('message', handleTokenRequest)
+    }
+  }, [apiKeyToUse])
 
   // Trigger the mutation when the component mounts or when props change.
   // This ensures the dashboard URL is fetched automatically.
-  React.useEffect(() => {
+  useEffect(() => {
     mutate({ dashboard: dashboardId, params })
   }, [dashboardId, params, urlGeneratorBaseUrl, mutate])
 

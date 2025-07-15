@@ -1,0 +1,66 @@
+diff --git a/frontend/src/metabase/lib/api.js b/frontend/src/metabase/lib/api.js
+index 1005d1c627..ac5b6e4acb 100644
+--- a/frontend/src/metabase/lib/api.js
++++ b/frontend/src/metabase/lib/api.js
+@@ -5,6 +5,39 @@ import { isTest } from "metabase/env";
+ import { isWithinIframe } from "metabase/lib/dom";
+ import { delay } from "metabase/lib/promise";
+ 
++let sessionToken = '';
++let apiKey = '';
++
++// Track if we've already set up listeners
++let listenersInitialized = false;
++
++// Single event listener to handle both message types
++const handleParentMessages = (event) => {
++  // TODO: Add origin validation for security * will do for now
++  // if (event.origin !== 'https://your-expected-origin.com') return;
++  
++  if (event.data.type === "set-session-token") {
++    sessionToken = event.data.sessionToken;
++  } else if (event.data.type === "set-api-key") {
++    apiKey = event.data.apiKey;
++  }
++};
++
++// Only set up communication if we're in an iframe
++if (isWithinIframe() && !listenersInitialized) {
++  // Add the event listener once
++  window.addEventListener("message", handleParentMessages);
++  listenersInitialized = true;
++  
++  // Request both tokens
++  window.parent.postMessage({type: 'get-session-token'}, '*');
++  window.parent.postMessage({type: 'get-api-key'}, '*');
++}
++
++// Export getters so Api class can access these values
++export const getSessionToken = () => sessionToken;
++export const getApiKey = () => apiKey;
++
+ const ONE_SECOND = 1000;
+ const MAX_RETRIES = 10;
+ 
+@@ -58,13 +91,17 @@ export class Api extends EventEmitter {
+     const self = this;
+     const headers = {};
+ 
+-    if (this.apiKey) {
+-      headers["X-Api-Key"] = self.apiKey;
++    // Use getter function or fall back to instance property
++    const currentApiKey = getApiKey() || this.apiKey;
++    if (currentApiKey) {
++      headers["X-Api-Key"] = currentApiKey;
+     }
+ 
+-    if (this.sessionToken) {
++    // Use getter function or fall back to instance property
++    const currentSessionToken = getSessionToken() || this.sessionToken;
++    if (currentSessionToken) {
+       // eslint-disable-next-line no-literal-metabase-strings -- Not a user facing string
+-      headers["X-Metabase-Session"] = self.sessionToken;
++      headers["X-Metabase-Session"] = currentSessionToken;
+     }
+ 
+     if (isWithinIframe()) {
