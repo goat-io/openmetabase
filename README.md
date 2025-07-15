@@ -2,6 +2,17 @@
 
 A proof-of-concept for using Metabase as a backoffice solution with enhanced action capabilities in embedded dashboards.
 
+## AGPL License Compliance Notice
+
+**This project maintains a patched version of Metabase in full compliance with the GNU Affero General Public License v3.0 (AGPL-3.0).** We are committed to:
+
+- **Full Transparency**: All modifications to Metabase source code are documented and available as git patches in `apps/metabase-patches/patches/`
+- **Open Source**: This entire repository, including all patches and modifications, is publicly available
+- **Attribution**: We maintain the "Powered by Metabase" logo in all embedded dashboards to properly attribute the original software
+- **User Rights**: Anyone receiving our modified version has full access to the complete source code, as required by AGPL
+
+For detailed information about our modifications, see [MODIFICATIONS.md](apps/metabase-patches/MODIFICATIONS.md) and [NOTICE.md](NOTICE.md).
+
 ## Metabase Credentials
 
 For the local development environment credentials are
@@ -13,7 +24,7 @@ password: testadmin123
 
 ## Overview
 
-This project demonstrates how to use a modified version of Metabase to create interactive backoffice applications. Since the open-source version of Metabase has limitations on embedded dashboard actions, we maintain a patched version that enables these features.
+This project demonstrates how to use a modified version of Metabase to create interactive backoffice applications. Since the open-source version of Metabase has limitations on embedded dashboard actions, we maintain a patched version that enables these features while respecting all license requirements.
 
 ## Architecture
 
@@ -161,7 +172,15 @@ npm run format             # Format all projects
 
 This project contains a modified version of Metabase, which is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0). See [NOTICE.md](NOTICE.md) for details about modifications and [LICENSE-AGPL](LICENSE-AGPL) for the full license text.
 
-Our modifications are also licensed under AGPL-3.0. Source code for all modifications is available in this repository as patches in `apps/metabase-patches/patches/`.
+### Our Commitment to License Compliance
+
+- **All modifications are licensed under AGPL-3.0**, the same as the original Metabase
+- **Complete source code** for all modifications is available in this repository as patches in `apps/metabase-patches/patches/`
+- **We preserve all copyright notices** and the "Powered by Metabase" branding in our deployment
+- **Users have full rights** to access, modify, and distribute this modified version under AGPL terms
+- **We document all changes** transparently in [MODIFICATIONS.md](apps/metabase-patches/MODIFICATIONS.md)
+
+We respect Metabase's work and aim to contribute back to the community while enabling specific use cases for embedded dashboards.
 
 ## Contributing
 
