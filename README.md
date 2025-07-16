@@ -30,6 +30,8 @@ The solution consists of three main components:
 - Docker and Docker Compose
 - Node.js 18+
 - npm
+- Pulumi
+  - Install with `brew install pulumi/tap/pulumi` and login with `pulumi whoami` for the first time
 
 ### 0. Install packages in all repos (no monorepo setup yet)
 
