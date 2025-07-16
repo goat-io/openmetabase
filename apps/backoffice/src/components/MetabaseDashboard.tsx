@@ -1,6 +1,6 @@
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useRef } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import IframeResizer from '@iframe-resizer/react'
+import { iframeResizer } from 'iframe-resizer'
 
 // Define the props for the MetabaseDashboard component
 export type MetabaseDashboardProps = {
@@ -67,6 +67,8 @@ export const MetabaseDashboard: FC<MetabaseDashboardProps> = ({
   apiKey,
   sessionToken,
 }) => {
+  const iframeRef = useRef<HTMLIFrameElement>(null)
+
   // useMutation hook to handle the API call for generating the dashboard URL.
   // The `mutationFn` is wrapped to pass the `urlGeneratorBaseUrl`.
   const { mutate, data, isPending, isError, error, isSuccess } = useMutation<
@@ -169,19 +171,20 @@ export const MetabaseDashboard: FC<MetabaseDashboardProps> = ({
 
   if (isSuccess && data?.iframeUrl) {
     return (
-      <div
-        className='w-full bg-gray-200 rounded-md overflow-hidden'
-        style={{ height: '500px' }}
-      >
-        <IframeResizer
-          license='GPLv3'
+      <div className='w-full bg-gray-200 rounded-md overflow-hidden'>
+        <iframe
+          ref={iframeRef}
           src={data.iframeUrl}
-          frameBorder='0'
+          allowTransparency={true}
+          title={`Metabase Dashboard ${dashboardId}`}
           width='100%'
           height='100%'
-          allowTransparency
-          className='rounded-md'
-          title={`Metabase Dashboard ${dashboardId}`}
+          frameBorder='0'
+          onLoad={() => {
+            if (iframeRef.current) {
+              iframeResizer({}, iframeRef.current)
+            }
+          }}
         />
       </div>
     )

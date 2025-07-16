@@ -1,6 +1,6 @@
 {
   "name": "backoffice-test",
-  "version": "v0.0.2",
+  "version": "v0.55.8",
   "private": true,
   "description": "POC for using Metabase as backoffice",
   "scripts": {
