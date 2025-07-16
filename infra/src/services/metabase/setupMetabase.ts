@@ -4,7 +4,9 @@ import { waitForMetabase } from './util/admin/waitForMetabase'
 import { createAdminUser } from './util/admin/createAdminUser'
 import { enableEmbeddings } from './util/admin/enableEmbeddings'
 import { addDataSource } from './util/admin/addDataSource'
+import { createApiKey } from './util/admin/createApiKey'
 import { secretService } from '@src/secretService'
+import { getEmbeddingSecretKey } from './util/admin/getEmbeddingSecretKey'
 
 export async function setupMetabase(projectName?: string) {
   const ADMIN_EMAIL = process.env.MB_ADMIN_EMAIL || 'admin@mycompany.com'
@@ -42,28 +44,42 @@ export async function setupMetabase(projectName?: string) {
     mbToken,
   })
 
-  console.log({
+  // Create API key
+  const apiKeyData = await createApiKey({
     baseUrl: METABASE_URL,
-    dbHost: DB_HOST,
-    dbName: DB_NAME,
-    dbPassword: DB_PASSWORD,
-    dbNameInMetabase: nameInMetabase,
-    dbPort: DB_PORT,
-    dbUser: DB_USER,
-    engine: 'postgres',
+    mbToken,
+    keyName: `${PROJECT_NAME} API Key`,
+    groupId: 2
+  })
+
+  // Fetch embedding secret key
+  const embeddingSecretKey = await getEmbeddingSecretKey({
+    baseUrl: METABASE_URL,
     mbToken,
   })
-  await addDataSource({
-    baseUrl: METABASE_URL,
-    dbHost: DB_HOST,
-    dbName: DB_NAME,
-    dbPassword: DB_PASSWORD,
-    dbNameInMetabase: nameInMetabase,
-    dbPort: DB_PORT,
-    dbUser: DB_USER,
-    engine: 'postgres',
-    mbToken,
-  })
+
+  await Promise.all([
+    await addDataSource({
+      baseUrl: METABASE_URL,
+      dbHost: DB_HOST,
+      dbName: DB_NAME,
+      dbPassword: DB_PASSWORD,
+      dbNameInMetabase: nameInMetabase,
+      dbPort: DB_PORT,
+      dbUser: DB_USER,
+      engine: 'postgres',
+      mbToken,
+    })
+  ])
+
+  // Output API key information
+  console.log('\n🎉 Metabase Setup Complete!')
+  console.log('=' .repeat(60))
+  console.log(`🔐 API Key Name: ${apiKeyData.name}`)
+  console.log(`📋 API Key ID: ${apiKeyData.id}`)
+  console.log(`🔑 API Key: ${apiKeyData.unmasked_key}`)
+  console.log(`🔒 Embedding Secret Key: ${embeddingSecretKey}`)
+  console.log('=' .repeat(60))
 
   //   const [databaseId, collectionId] = await Promise.all([
   //     addDatabaseSource(mbToken),

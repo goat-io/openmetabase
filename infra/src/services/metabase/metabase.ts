@@ -14,6 +14,8 @@ const imageName = 'openmetabase'
 const versionedImageName = `${imageName}:${version}`
 const dbPassword = secretService.POSTGRES_DB_PASSWORD
 
+const externalPort = 3000
+
 // Define a Docker container resource that uses the built image
 export const metabaseContainer = new docker.Container(
   'metabaseContainer',
@@ -24,12 +26,15 @@ export const metabaseContainer = new docker.Container(
     ports: [
       {
         internal: 3000,
-        external: 3000,
+        external: externalPort,
       },
     ],
     networksAdvanced: [
       {
         name: network.name,
+      },
+      {
+        name: "my-network",
       },
     ],
     envs: [
@@ -41,7 +46,7 @@ export const metabaseContainer = new docker.Container(
       `MB_DB_HOST=${postgresContainerName}`,
     ],
     healthcheck: {
-      tests: ['curl --fail -I http://localhost:3000/api/health || exit 1'],
+      tests: [`curl --fail -I http://localhost:${externalPort}/api/health || exit 1`],
       interval: '15s',
       timeout: '5s',
       retries: 5,
