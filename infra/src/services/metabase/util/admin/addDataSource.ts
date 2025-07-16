@@ -26,9 +26,9 @@ export async function addDataSource({
   baseUrl: string
   dbHost: string
   dbName: string
-  dbPort: string
+  dbPort: string | null | number
   dbUser: string
-  dbPassword: string
+  dbPassword: string | null
   dbNameInMetabase: string
   engine: 'mysql' | 'postgres'
 }): Promise<number | undefined> {

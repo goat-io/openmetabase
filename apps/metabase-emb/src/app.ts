@@ -19,7 +19,7 @@ app.use(
 
 // Basic route
 app.post('/get-dashboard', (req: Request, res: Response) => {
-  const METABASE_SITE_URL = 'http://127.0.0.1:3000'
+  const METABASE_SITE_URL = process.env.METABASE_URL || 'http://127.0.0.1:3000'
 
   // TODO: validate request
   const dashboard = Number(req.body.dashboard)
@@ -46,7 +46,7 @@ app.post('/get-dashboard', (req: Request, res: Response) => {
 
   res.json({
     iframeUrl,
-    apiKey: 'mb_jdVvfPbU4VqfkblxeRoae22GMI+9nT2hi6F6it3hRGw=',
+    apiKey: process.env.METABASE_API_KEY,
   })
 })
 
