@@ -43,6 +43,34 @@ We maintain a fork of Metabase with custom patches to enable action functionalit
 
 **Impact**: Actions can trigger events in the parent application instead of just navigating to URLs.
 
+### 4. Request Auth Tokens from Parent (`request-auth-tokens-from-parent.patch`)
+
+**File Modified**: `frontend/src/metabase/lib/api.js`
+
+**Changes**:
+- Lines 8-40: Added mechanism to request and receive authentication tokens from parent window
+- Implements secure postMessage communication for sessionToken and apiKey exchange
+- Only initializes when running within an iframe context
+- Exports getter functions `getSessionToken()` and `getApiKey()`
+- Lines 94-106: Modified `getClientHeaders()` to use the received tokens
+
+**Purpose**: Enables secure authentication token exchange between parent application and embedded Metabase, allowing the embedded dashboard to make authenticated API requests.
+
+**Impact**: Embedded dashboards can receive and use authentication tokens from the parent application for secure API communication.
+
+### 5. Parse JWT for Embedded Actions (`parse-jwt-for-embedded-actions.patch`)
+
+**File Modified**: `frontend/src/metabase/dashboard/actions/actions.ts`
+
+**Changes**:
+- Lines 41-60: Added `parseJwt` function to decode JWT tokens without external dependencies
+- Lines 63-70: Added `EmbedDashboardToken` type definition for JWT payload structure
+- Lines 85-94: Modified `executeRowAction` to extract dashboard ID from JWT token for embedded dashboards
+
+**Purpose**: Enables embedded dashboards to properly execute actions by parsing the JWT token to extract the actual dashboard ID, which is encoded within the token for security.
+
+**Impact**: Actions in embedded dashboards can correctly identify and execute against the proper dashboard resource.
+
 ## Building the Modified Version
 
 To build Metabase with these modifications:
@@ -59,6 +87,7 @@ npm run metabase:build-image
 
 - Patches are stored in `apps/metabase-patches/patches/`
 - Use `npm run metabase:create-patch <name>` to create new patches
+- Use `npm run metabase:reset-patches` to reset Metabase to a clean state for patch development
 - Use `npm run metabase:update` to update Metabase while preserving patches
 
 ## License Compliance

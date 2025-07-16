@@ -27,13 +27,7 @@
   "main": "./src/index.ts",
   "scripts": {
     "clean": "rimraf .cache .turbo dist node_modules",
-    "deploy": "cross-env tsx ./src/index.ts",
-    "destroy:local": "cross-env  APP_ENV=local ./scripts/destroyAllResources.sh",
-    "docker:cmd": "cross-env  APP_ENV=local ./scripts/runDockerCommand.sh",
-    "pulumi": "node ./scripts/pulumiCommand.js",
-    "serve": "cross-env APP_ENV=local tsx ./src/index.ts",
-    "setup-meta": "cross-env APP_ENV=local tsx ./src/services/metabase/setupScript.ts",
-    "update:packages": "cross-env npx npm-check-updates",
+    "serve": "pulumi login file://pulumi-state && cross-env APP_ENV=local tsx ./src/index.ts",
     "format": "prettier --write \"src/**/*.{js,ts,json,md}\" \"scripts/**/*.{js,ts}\"",
     "format:check": "prettier --check \"src/**/*.{js,ts,json,md}\" \"scripts/**/*.{js,ts}\""
   }
